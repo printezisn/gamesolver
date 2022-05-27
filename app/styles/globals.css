@@ -6,7 +6,7 @@
   --brand-color: hsl(var(--brand-color-hue), var(--brand-color-saturation), var(--brand-color-lightness));
   --grey-darkest: hsl(var(--brand-color-hue), 10%, 20%);
   --grey-darker: hsl(var(--brand-color-hue), 10%, 25%);
-  --text-color: hsl(var(--brand-color-hue), var(--brand-color-saturation), 92%);
+  --text-color: hsl(var(--brand-color-hue), var(--brand-color-saturation), 97%);
   --shadow: var(--brand-color-hue), 5%, 15%;
 }
 
@@ -28,6 +28,7 @@ main {
 footer {
   text-align: center;
   font-size: 0.8rem;
+  padding-bottom: 2rem;
 }
 
 a {

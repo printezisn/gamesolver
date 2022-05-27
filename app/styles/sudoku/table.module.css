@@ -1,0 +1,13 @@
+.wrapper {
+  margin-top: 2rem;
+  background: var(--text-color);
+  color: var(--grey-darkest);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.table {
+  border: solid 2px var(--grey-darkest);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
