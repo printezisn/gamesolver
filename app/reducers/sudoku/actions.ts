@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { generate } from '../../lib/sudoku';
+import { Difficulty, generate } from '../../lib/sudoku';
 import { GENERATE_SUDOKU_ACTION, SOLVE_SUDOKU, UPDATE_CELL_ACTION } from './constants';
 import { Action } from './types';
 
@@ -28,7 +28,7 @@ export const updateCell = (row: number, col: number, value: string, dispatch: Di
 export const generateSudoku = (dispatch: Dispatch<Action>) => {
   dispatch({
     type: GENERATE_SUDOKU_ACTION,
-    payload: generate(),
+    payload: generate(Difficulty.Easy),
   });
 };
 

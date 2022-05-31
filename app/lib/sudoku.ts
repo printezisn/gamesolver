@@ -1,37 +1,67 @@
-const defaultTable = [
-  [null, 6, null, 3, null, null, 8, null, 4],
-  [5, 3, 7, null, 9, null, null, null, null],
-  [null, 4, null, null, null, 6, 3, null, 7],
-  [null, 9, null, null, 5, 1, 2, 3, 8],
-  [null, null, null, null, null, null, null, null, null],
-  [7, 1, 3, 6, 2, null, null, 4, null],
-  [3, null, 6, 4, null, null, null, 1, null],
-  [null, null, null, null, 6, null, 5, 2, 3],
-  [1, null, 2, null, null, 9, null, 8, null],
+import { getRandomNumber } from './utils';
+
+const availableSolutions = [
+  '261375894537894162948216357694751238825943671713628945356482719489167523172539486',
 ];
 
-const defaultSolution = [
-  [2, 6, 1, 3, 7, 5, 8, 9, 4],
-  [5, 3, 7, 8, 9, 4, 1, 6, 2],
-  [9, 4, 8, 2, 1, 6, 3, 5, 7],
-  [6, 9, 4, 7, 5, 1, 2, 3, 8],
-  [8, 2, 5, 9, 4, 3, 6, 7, 1],
-  [7, 1, 3, 6, 2, 8, 9, 4, 5],
-  [3, 5, 6, 4, 8, 2, 7, 1, 9],
-  [4, 8, 9, 1, 6, 7, 5, 2, 3],
-  [1, 7, 2, 5, 3, 9, 4, 8, 6],
-];
+/**
+ * Converts a solution string to table
+ * 
+ * @param solution The solution string to convert
+ * @returns The solution table
+ */
+const convertSolutionToTable = (solution: string) => {
+  const table: (number | null)[][] = [...Array(9)].map(() => Array(9).fill(null));
+
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      const index = i * 9 + j;
+
+      table[i][j] = parseInt(solution[index]);
+    }
+  }
+
+  return table;
+};
+
+/**
+ * The difficulty of a sudoku table
+ */
+export enum Difficulty {
+  Easy = 35,
+  Normal = 30,
+  Hard = 25,
+}
 
 /**
  * Generates and returns a new sudoku table along with its solution
  * 
+ * @param difficulty The difficulty of the sudoku table
  * @returns The sudoku table along with its solution
  */
-export const generate = () => {
-  return {
-    table: defaultTable,
-    solution: defaultSolution,
-  };
+export const generate = (difficulty: Difficulty) => {
+  const solution = availableSolutions[getRandomNumber(availableSolutions.length)];
+  const solutionTable = convertSolutionToTable(solution);
+
+  const visibleCells: number[] = [];
+  const availableCells = [...Array(81)].map((_, i) => i);
+
+  for (let i = 0; i < difficulty; i++) {
+    const index = getRandomNumber(availableCells.length);
+
+    visibleCells.push(availableCells[index]);
+    availableCells.splice(index, 1);
+  }
+
+  const generatedTable: (number | null)[][] = [...Array(9)].map(() => Array(9).fill(null));
+
+  visibleCells.forEach((index) => {
+    const row = Math.floor(index / 9), col = index % 9;
+
+    generatedTable[row][col] = solutionTable[row][col];
+  });
+
+  return { table: generatedTable, solution: solutionTable };
 };
 
 /**

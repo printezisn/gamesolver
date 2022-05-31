@@ -28,7 +28,7 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
         })}
         readOnly={locked}
         value={value}
-        onChange={(e) => updateCell(table, row, col, e.target.value, dispatch)}
+        onChange={(e) => updateCell(row, col, e.target.value, dispatch)}
       />
     </div>
   );
