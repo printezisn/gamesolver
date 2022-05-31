@@ -22,22 +22,24 @@ const defaultSolution = [
   [1, 7, 2, 5, 3, 9, 4, 8, 6],
 ];
 
-interface GeneratedSudoku {
-  table: (number | null)[][],
-  solution: number[][]
-}
-
+/**
+ * Generates and returns a new sudoku table along with its solution
+ * 
+ * @returns The sudoku table along with its solution
+ */
 export const generate = () => {
-  return new Promise<GeneratedSudoku>((resolve) => {
-    setTimeout(() => {
-      resolve({
-        table: defaultTable,
-        solution: defaultSolution,
-      });
-    }, 1000);
-  });
+  return {
+    table: defaultTable,
+    solution: defaultSolution,
+  };
 };
 
+/**
+ * Finds and returns the invalid cells inside a sudoku table
+ * 
+ * @param table The sudoku table to check
+ * @returns The invalid cells in a json object format, to make searching faster
+ */
 export const findInvalidCells = (table: (number | null)[][]) => {
   const 
     boardOccurences: any = {},
