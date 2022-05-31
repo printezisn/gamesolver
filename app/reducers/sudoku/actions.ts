@@ -57,7 +57,7 @@ export const initializeSudoku = (dispatch: Dispatch<Action>) => {
       payload: state,
     });
   } else {
-    generateSudoku(dispatch);
+    generateSudoku(Difficulty.Easy, dispatch);
   }
 };
 

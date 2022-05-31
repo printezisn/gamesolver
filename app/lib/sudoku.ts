@@ -28,9 +28,9 @@ const convertSolutionToTable = (solution: string) => {
  * The difficulty of a sudoku table
  */
 export enum Difficulty {
-  Easy = 35,
-  Normal = 30,
-  Hard = 25,
+  Easy = 40,
+  Normal = 35,
+  Hard = 30,
 }
 
 /**
