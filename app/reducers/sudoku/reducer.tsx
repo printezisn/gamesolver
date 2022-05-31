@@ -1,11 +1,12 @@
 import { createContext, Dispatch, FC, ReactNode, useContext, useReducer } from 'react';
 import { findInvalidCells } from '../../lib/sudoku';
-import { GENERATE_SUDOKU_ACTION, SOLVE_SUDOKU, UPDATE_CELL_ACTION } from './constants';
+import { GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU, SOLVE_SUDOKU, UPDATE_CELL_ACTION } from './constants';
 import { Action, State } from './types';
 
 const emptyTable = Array(9).fill(Array(9).fill(null));
 
 const initialState: State = {
+  initialized: false,
   initialTable: emptyTable,
   table: emptyTable,
   solution: emptyTable,
@@ -37,6 +38,7 @@ const reducer = (state: State, action: Action): State => {
 
       return {
         ...state,
+        initialized: true,
         initialTable: table,
         table: table,
         solution: solution,
@@ -45,8 +47,16 @@ const reducer = (state: State, action: Action): State => {
     case SOLVE_SUDOKU:
       return {
         ...state,
+        initialized: true,
         table: state.solution,
         invalidCells: [],
+      };
+    case INITIALIZE_SUDOKU:
+      return {
+        ...state,
+        ...action.payload,
+        initialized: true,
+        invalidCells: findInvalidCells(action.payload.table),
       };
     default:
       throw Error(`Unknown action: ${action.type}`);

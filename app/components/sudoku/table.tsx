@@ -2,15 +2,20 @@ import styles from '../../styles/sudoku/table.module.css';
 
 import { FC, useEffect } from 'react';
 import SudokuTableBoard from './board';
-import { generateSudoku } from '../../reducers/sudoku/actions';
-import { useSudokuDispatch } from '../../reducers/sudoku/reducer';
+import { initializeSudoku, storeSudoku } from '../../reducers/sudoku/actions';
+import { useSudoku, useSudokuDispatch } from '../../reducers/sudoku/reducer';
 
 const SudokuTable: FC = () => {
+  const state = useSudoku();
   const dispatch = useSudokuDispatch();
 
   useEffect(() => {
-    generateSudoku(dispatch);
-  }, [dispatch]);
+    if (!state.initialized) {
+      initializeSudoku(dispatch);
+    } else {
+      storeSudoku(state);
+    }
+  });
 
   const boards = [];
 

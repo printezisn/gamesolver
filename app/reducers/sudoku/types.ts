@@ -1,4 +1,5 @@
 export interface State {
+  initialized: boolean,
   initialTable: (number | null)[][],
   table: (number | null)[][],
   solution: (number | null)[][],

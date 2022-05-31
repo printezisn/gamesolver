@@ -1,7 +1,8 @@
 import { Dispatch } from 'react';
 import { Difficulty, generate } from '../../lib/sudoku';
-import { GENERATE_SUDOKU_ACTION, SOLVE_SUDOKU, UPDATE_CELL_ACTION } from './constants';
-import { Action } from './types';
+import { fetchFromLocalStorage, storeToLocalStorage } from '../../lib/utils';
+import { GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU, LOCAL_STORAGE_STATE_KEY, SOLVE_SUDOKU, UPDATE_CELL_ACTION } from './constants';
+import { Action, State } from './types';
 
 /**
  * Updates a cell of the sudoku table
@@ -39,4 +40,33 @@ export const generateSudoku = (dispatch: Dispatch<Action>) => {
  */
 export const solveSudoku = (dispatch: Dispatch<Action>) => {
   dispatch({ type: SOLVE_SUDOKU });
+};
+
+/**
+ * Initializes the sudoku with a stored table or a new one
+ * 
+ * @param dispatch Action dispatcher for reducer
+ */
+export const initializeSudoku = (dispatch: Dispatch<Action>) => {
+  const state = fetchFromLocalStorage(LOCAL_STORAGE_STATE_KEY);
+  
+  if (state) {
+    dispatch({
+      type: INITIALIZE_SUDOKU,
+      payload: state,
+    });
+  } else {
+    generateSudoku(dispatch);
+  }
+};
+
+/**
+ * Stores the current sudoku
+ * 
+ * @param state The state of the current sudoku
+ */
+export const storeSudoku = (state: State) => {
+  const { initialTable, table, solution } = state;
+
+  storeToLocalStorage(LOCAL_STORAGE_STATE_KEY, { initialTable, table, solution });
 };
