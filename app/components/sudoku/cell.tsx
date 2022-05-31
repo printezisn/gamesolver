@@ -21,6 +21,7 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
     <div className={styles.cell}>
       <input
         type="text"
+        aria-label={`Cell ${row}-${col}`}
         className={classNames({
           [styles.input]: true,
           [styles.locked]: locked,
