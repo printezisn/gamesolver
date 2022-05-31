@@ -24,12 +24,13 @@ export const updateCell = (row: number, col: number, value: string, dispatch: Di
 /**
  * Generates a new sudoku table
  * 
+ * @param difficulty The difficulty of the new sudoku table
  * @param dispatch Action dispatcher for reducer
  */
-export const generateSudoku = (dispatch: Dispatch<Action>) => {
+export const generateSudoku = (difficulty: Difficulty, dispatch: Dispatch<Action>) => {
   dispatch({
     type: GENERATE_SUDOKU_ACTION,
-    payload: generate(Difficulty.Easy),
+    payload: generate(difficulty),
   });
 };
 

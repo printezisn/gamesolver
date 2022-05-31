@@ -10,6 +10,7 @@
   --shadow: var(--brand-color-hue), 5%, 15%;
   --error-color: hsl(0, var(--brand-color-saturation), var(--brand-color-lightness));
   --success-color: hsl(120, var(--brand-color-saturation), var(--brand-color-lightness));
+  --warning-color: hsl(39, var(--brand-color-saturation), var(--brand-color-lightness));
 }
 
 * {
@@ -78,6 +79,36 @@ a {
 
 .button.primary:hover {
   background: var(--brand-color);
+  color: var(--text-color);
+}
+
+.button.success {
+  border-color: var(--success-color);
+  color: var(--success-color);
+}
+
+.button.success:hover {
+  background: var(--success-color);
+  color: var(--text-color);
+}
+
+.button.warning {
+  border-color: var(--warning-color);
+  color: var(--warning-color);
+}
+
+.button.warning:hover {
+  background: var(--warning-color);
+  color: var(--text-color);
+}
+
+.button.error {
+  border-color: var(--error-color);
+  color: var(--error-color);
+}
+
+.button.error:hover {
+  background: var(--error-color);
   color: var(--text-color);
 }
 
