@@ -1,6 +1,6 @@
 import { createContext, Dispatch, FC, ReactNode, useContext, useReducer } from 'react';
 import { findInvalidCells } from '../../lib/sudoku';
-import { GENERATE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
+import { GENERATE_SUDOKU_ACTION, SOLVE_SUDOKU, UPDATE_CELL_ACTION } from './constants';
 import { Action, State } from './types';
 
 const emptyTable = Array(9).fill(Array(9).fill(null));
@@ -40,6 +40,12 @@ const reducer = (state: State, action: Action): State => {
         initialTable: table,
         table: table,
         solution: solution,
+        invalidCells: [],
+      };
+    case SOLVE_SUDOKU:
+      return {
+        ...state,
+        table: state.solution,
         invalidCells: [],
       };
     default:

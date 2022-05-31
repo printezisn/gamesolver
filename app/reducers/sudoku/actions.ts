@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 import { generate } from '../../lib/sudoku';
-import { GENERATE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
+import { GENERATE_SUDOKU_ACTION, SOLVE_SUDOKU, UPDATE_CELL_ACTION } from './constants';
 import { Action } from './types';
 
 /**
@@ -30,4 +30,13 @@ export const generateSudoku = (dispatch: Dispatch<Action>) => {
     type: GENERATE_SUDOKU_ACTION,
     payload: generate(),
   });
+};
+
+/**
+ * Solves a sudoku table
+ * 
+ * @param dispatch Action dispatcher for reducer
+ */
+export const solveSudoku = (dispatch: Dispatch<Action>) => {
+  dispatch({ type: SOLVE_SUDOKU });
 };
