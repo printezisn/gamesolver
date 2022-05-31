@@ -19,3 +19,7 @@
 .input.locked {
   font-weight: bold;
 }
+
+.input.invalid {
+  color: var(--error-color);
+}

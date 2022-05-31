@@ -1,5 +1,5 @@
 import { createContext, Dispatch, FC, ReactNode, useContext, useReducer } from 'react';
-import { GENERATE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
+import { GENERATE_SUDOKU_ACTION, UPDATE_TABLE_ACTION } from './constants';
 import { Action, State } from './types';
 
 const emptyTable = Array(9).fill(Array(9).fill(null));
@@ -8,28 +8,24 @@ const initialState: State = {
   initialTable: emptyTable,
   table: emptyTable,
   solution: emptyTable,
+  invalidCells: [],
 };
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
-    case UPDATE_CELL_ACTION:
-      const { row, col, value } = action.payload;
-      const newTable = [...state.table];
-      newTable[row] = [...state.table[row]];
-      newTable[row][col] = value;
-
+    case UPDATE_TABLE_ACTION:
       return {
         ...state,
-        table: newTable,
+        table: action.payload.table,
+        invalidCells: action.payload.invalidCells,
       };
     case GENERATE_SUDOKU_ACTION:
-      const { table, solution } = action.payload;
-
       return {
         ...state,
-        initialTable: table,
-        table,
-        solution,
+        initialTable: action.payload.table,
+        table: action.payload.table,
+        solution: action.payload.solution,
+        invalidCells: [],
       };
     default:
       throw Error(`Unknown action: ${action.type}`);

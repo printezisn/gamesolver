@@ -37,3 +37,47 @@ export const generate = () => {
     }, 1000);
   });
 };
+
+export const findInvalidCells = (table: (number | null)[][]) => {
+  const 
+    boardOccurences: any = {},
+    rowOccurences: any = {},
+    colOccurences: any = {},
+    invalidCells: any = {};
+
+  for (let i = 0; i < table.length; i++) {
+    for (let j = 0; j < table[i].length; j++) {
+      if (!table[i][j]) {
+        continue;
+      }
+
+      const value = table[i][j] as number;
+      const board = Math.floor(i / 3) * 3 + Math.floor(j / 3);
+
+      boardOccurences[board] = boardOccurences[board] || {};
+      rowOccurences[i] = rowOccurences[i] || {};
+      colOccurences[j] = colOccurences[j] || {};
+
+      if (boardOccurences[board][value]) {
+        const [boardRow, boardCol] = boardOccurences[board][value];
+
+        invalidCells[i * 9 + j] = true;
+        invalidCells[boardRow * 9 + boardCol] = true;
+      }
+      if (rowOccurences[i][value] != null) {
+        invalidCells[i * 9 + j] = true;
+        invalidCells[i * 9 + rowOccurences[i][value]] = true;
+      }
+      if (colOccurences[j][value] != null) {
+        invalidCells[i * 9 + j] = true;
+        invalidCells[colOccurences[j][value] * 9 + j] = true;
+      }
+
+      boardOccurences[board][value] = [i, j];
+      rowOccurences[i][value] = j;
+      colOccurences[j][value] = i;
+    }
+  }
+
+  return invalidCells;
+};
