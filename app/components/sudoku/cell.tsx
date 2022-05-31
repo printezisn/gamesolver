@@ -11,7 +11,7 @@ interface Props {
 }
 
 const SudokuTableCell: FC<Props> = ({ row, col }) => {
-  const { initialTable, table, invalidCells } = useSudoku();
+  const { initialTable, table, invalidCells, completed } = useSudoku();
   const dispatch = useSudokuDispatch();
   
   const value = table[row][col] ? table[row][col] as number : '';
@@ -25,6 +25,7 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
           [styles.input]: true,
           [styles.locked]: locked,
           [styles.invalid]: Boolean(invalidCells[row * 9 + col]),
+          [styles.success]: completed,
         })}
         readOnly={locked}
         value={value}

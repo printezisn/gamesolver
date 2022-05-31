@@ -1,9 +1,10 @@
 import { createContext, Dispatch, FC, ReactNode, useContext, useReducer } from 'react';
 import { findInvalidCells } from '../../lib/sudoku';
+import { getEmpty2DArray } from '../../lib/utils';
 import { GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU, SOLVE_SUDOKU, UPDATE_CELL_ACTION } from './constants';
 import { Action, State } from './types';
 
-const emptyTable = Array(9).fill(Array(9).fill(null));
+const emptyTable = getEmpty2DArray(9, 9);
 
 const initialState: State = {
   initialized: false,
@@ -11,6 +12,26 @@ const initialState: State = {
   table: emptyTable,
   solution: emptyTable,
   invalidCells: [],
+  completed: false,
+};
+
+/**
+ * Creates and returns a new state based on the current one
+ * 
+ * @param state The current state
+ * @param newProps The changed properties
+ * @returns The new state
+ */
+const createState = (state: State, newProps: any): State => {
+  const newState: State = { ...state, ...newProps };
+  const invalidCells = findInvalidCells(newState.table);
+  const completed = Object.keys(invalidCells).length === 0 && !newState.table.some((row) => row.indexOf(null) >= 0);
+
+  return {
+    ...newState,
+    invalidCells,
+    completed,
+  };
 };
 
 /**
@@ -28,36 +49,33 @@ const reducer = (state: State, action: Action): State => {
       newTable[row] = [...newTable[row]];
       newTable[row][col] = value;
 
-      return {
-        ...state,
-        table: newTable,
-        invalidCells: findInvalidCells(newTable),
-      };
+      return createState(state, { table: newTable });
     case GENERATE_SUDOKU_ACTION:
-      const { table, solution } = action.payload;
-
-      return {
-        ...state,
-        initialized: true,
-        initialTable: table,
-        table: table,
-        solution: solution,
-        invalidCells: [],
-      };
+      return createState(
+        state,
+        {
+          initialized: true,
+          initialTable: action.payload.table,
+          table: action.payload.table,
+          solution: action.payload.solution,
+        },
+      );
     case SOLVE_SUDOKU:
-      return {
-        ...state,
-        initialized: true,
-        table: state.solution,
-        invalidCells: [],
-      };
+      return createState(
+        state,
+        {
+          initialized: true,
+          table: state.solution,
+        },
+      );
     case INITIALIZE_SUDOKU:
-      return {
-        ...state,
-        ...action.payload,
-        initialized: true,
-        invalidCells: findInvalidCells(action.payload.table),
-      };
+      return createState(
+        state,
+        {
+          ...action.payload,
+          initialized: true,
+        },
+      );
     default:
       throw Error(`Unknown action: ${action.type}`);
   }

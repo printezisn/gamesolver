@@ -1,4 +1,4 @@
-import { getRandomNumber } from './utils';
+import { getEmpty2DArray, getRandomNumber } from './utils';
 
 const availableSolutions = [
   '261375894537894162948216357694751238825943671713628945356482719489167523172539486',
@@ -11,7 +11,7 @@ const availableSolutions = [
  * @returns The solution table
  */
 const convertSolutionToTable = (solution: string) => {
-  const table: (number | null)[][] = [...Array(9)].map(() => Array(9).fill(null));
+  const table = getEmpty2DArray(9, 9);
 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
@@ -53,7 +53,7 @@ export const generate = (difficulty: Difficulty) => {
     availableCells.splice(index, 1);
   }
 
-  const generatedTable: (number | null)[][] = [...Array(9)].map(() => Array(9).fill(null));
+  const generatedTable = getEmpty2DArray(9, 9);
 
   visibleCells.forEach((index) => {
     const row = Math.floor(index / 9), col = index % 9;

@@ -4,6 +4,7 @@ export interface State {
   table: (number | null)[][],
   solution: (number | null)[][],
   invalidCells: [number, number][],
+  completed: boolean,
 }
 
 export interface Action {

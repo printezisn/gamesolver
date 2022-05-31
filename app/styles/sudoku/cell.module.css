@@ -23,3 +23,7 @@
 .input.invalid {
   color: var(--error-color);
 }
+
+.input.success {
+  color: var(--success-color);
+}

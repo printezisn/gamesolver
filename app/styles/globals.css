@@ -9,6 +9,7 @@
   --text-color: hsl(var(--brand-color-hue), var(--brand-color-saturation), 97%);
   --shadow: var(--brand-color-hue), 5%, 15%;
   --error-color: hsl(0, var(--brand-color-saturation), var(--brand-color-lightness));
+  --success-color: hsl(120, var(--brand-color-saturation), var(--brand-color-lightness));
 }
 
 * {

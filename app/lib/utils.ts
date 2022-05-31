@@ -9,6 +9,17 @@ export const getRandomNumber = (max: number) => {
 };
 
 /**
+ * Generates and returns a 2D array with null in each cell
+ * 
+ * @param totalRows The total rows of the array
+ * @param totalCols The total columns of the array
+ * @returns The generated 2D array
+ */
+export const getEmpty2DArray = (totalRows: number, totalCols: number): (number | null)[][] => {
+  return [...Array(totalRows)].map(() => Array(totalCols).fill(null));
+};
+
+/**
  * Stores an object in local storage
  * 
  * @param key The key of the object 
