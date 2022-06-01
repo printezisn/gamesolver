@@ -13,7 +13,11 @@ import { Action, State } from './types';
  * @param dispatch Action dispatcher for reducer
  */
 export const updateCell = (row: number, col: number, value: string, dispatch: Dispatch<Action>) => {
-  const sanitizedValue = isNaN(parseInt(value)) ? null : parseInt(value[0]);
+  let sanitizedValue = isNaN(parseInt(value)) ? null : parseInt(value[0]);
+
+  if (sanitizedValue === 0) {
+    sanitizedValue = null;
+  }
 
   dispatch({
     type: UPDATE_CELL_ACTION,
