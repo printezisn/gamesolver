@@ -1,0 +1,35 @@
+.hidden {
+  display: none;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  z-index: 2;
+  background: var(--text-color);
+  box-shadow: 0 0 10px var(--shadow-color);
+}
+
+.dropdown.right {
+  right: 0;
+}
+
+.dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.dropdown li a {
+  color: var(--grey-darkest);
+  text-decoration: none;
+  padding: 1rem;
+  display: block;
+}
+
+.dropdown li a:hover {
+  background: var(--brand-color);
+  color: var(--text-color);
+}

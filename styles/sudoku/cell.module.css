@@ -1,5 +1,6 @@
 .cell {
   border: solid 1px var(--grey-darkest);
+  position: relative;
 }
 
 .input {
