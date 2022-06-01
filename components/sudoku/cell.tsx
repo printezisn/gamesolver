@@ -20,7 +20,7 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
   return (
     <div className={styles.cell}>
       <input
-        type="text"
+        type="number"
         aria-label={`Cell ${row}-${col}`}
         className={classNames({
           [styles.input]: true,
