@@ -1,8 +1,5 @@
 import { getEmpty2DArray, getRandomNumber } from './utils';
-
-const availableSolutions = [
-  '261375894537894162948216357694751238825943671713628945356482719489167523172539486',
-];
+import availableSolutions from '../data/sudoku.json';
 
 /**
  * Converts a solution string to table
