@@ -4,12 +4,11 @@ import { FC } from 'react';
 import classNames from 'classnames';
 
 interface Props {
-  show: boolean,
   right: boolean,
   onSelect: (num: number) => void
 }
 
-const NumberPicker: FC<Props> = ({ show, right, onSelect }) => {
+const NumberPicker: FC<Props> = ({ right, onSelect }) => {
   const numbers = [];
 
   for (let i = 1; i <= 9; i++) {
@@ -22,7 +21,7 @@ const NumberPicker: FC<Props> = ({ show, right, onSelect }) => {
 
   return (
     <div
-      className={classNames({ [styles.dropdown]: true, [styles.hidden]: !show, [styles.right]: right })}
+      className={classNames({ [styles.dropdown]: true, [styles.right]: right })}
     >
       <ul>{numbers}</ul>
     </div>

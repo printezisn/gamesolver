@@ -79,7 +79,7 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
         onChange={(e) => updateCell(row, col, e.target.value, dispatch)}
         onFocus={setFocus}
       />
-      {!locked && <NumberPicker show={showNumberPicker} onSelect={onNumberSelect} right={col >= 6} />}
+      {!locked && showNumberPicker && <NumberPicker onSelect={onNumberSelect} right={col >= 6} />}
     </div>
   );
 };
