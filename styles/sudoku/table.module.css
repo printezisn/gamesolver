@@ -24,3 +24,9 @@
     height: calc(500px - 4rem);
   }
 }
+
+@media screen and (max-width: 500px) {
+  .table {
+    height: calc(400px - 4rem);
+  }
+}
