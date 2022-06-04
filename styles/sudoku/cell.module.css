@@ -24,6 +24,10 @@
   outline: none;
 }
 
+.input.focused {
+  background: var(--grey-lightest);
+}
+
 .input.locked {
   font-weight: bold;
 }

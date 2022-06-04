@@ -15,6 +15,9 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
   const { initialTable, table, invalidCells, completed } = useSudoku();
   const dispatch = useSudokuDispatch();
 
+  const value = table[row][col] ? table[row][col] as number : '';
+  const locked = Boolean(initialTable[row][col]);
+
   const [showNumberPicker, setShowNumberPicker] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -31,6 +34,10 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
   };
 
   const setFocus = () => {
+    if (locked) {
+      return;
+    }
+
     document.dispatchEvent(new CustomEvent('sudokuDropdownOpen'));
 
     setShowNumberPicker(true);
@@ -54,9 +61,6 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
       document.removeEventListener('sudokuDropdownOpen', handleSudokuDropdownOpen);
     };
   }, []);
-  
-  const value = table[row][col] ? table[row][col] as number : '';
-  const locked = Boolean(initialTable[row][col]);
 
   return (
     <div className={styles.cell} ref={wrapperRef}>
@@ -68,6 +72,7 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
           [styles.locked]: locked,
           [styles.invalid]: Boolean(invalidCells[row * 9 + col]),
           [styles.success]: completed,
+          [styles.focused]: showNumberPicker,
         })}
         readOnly={locked}
         value={value}

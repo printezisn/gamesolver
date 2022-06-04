@@ -6,6 +6,7 @@
   --brand-color: hsl(var(--brand-color-hue), var(--brand-color-saturation), var(--brand-color-lightness));
   --grey-darkest: hsl(var(--brand-color-hue), 10%, 20%);
   --grey-darker: hsl(var(--brand-color-hue), 10%, 25%);
+  --grey-lightest: hsl(var(--brand-color-hue), 10%, 92%);
   --text-color: hsl(var(--brand-color-hue), var(--brand-color-saturation), 97%);
   --shadow-color: hsla(var(--brand-color-hue), 5%, 15%, 0.3);
   --error-color: hsl(0, var(--brand-color-saturation), var(--brand-color-lightness));
