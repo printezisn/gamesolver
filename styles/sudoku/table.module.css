@@ -27,6 +27,6 @@
 
 @media screen and (max-width: 500px) {
   .table {
-    height: calc(400px - 4rem);
+    height: calc(450px - 4rem);
   }
 }
