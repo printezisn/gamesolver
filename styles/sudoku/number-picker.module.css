@@ -8,6 +8,7 @@
   z-index: 2;
   background: var(--text-color);
   box-shadow: 0 0 10px var(--shadow-color);
+  border-radius: 5px;
 }
 
 .dropdown.right {
