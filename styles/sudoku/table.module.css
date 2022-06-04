@@ -30,3 +30,9 @@
     height: calc(400px - 4rem);
   }
 }
+
+@media screen and (max-width: 400px) {
+  .table {
+    height: calc(350px - 4rem);
+  }
+}
