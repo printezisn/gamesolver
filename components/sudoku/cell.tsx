@@ -16,37 +16,50 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
   const dispatch = useSudokuDispatch();
 
   const [showNumberPicker, setShowNumberPicker] = useState(false);
-  const focusedRef = useRef(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const handleLostFocus = () => {
-    if (!focusedRef.current) {
+  const handleOutsideClick = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+
+    if (!wrapperRef.current || !target || !wrapperRef.current.contains(target)) {
       setShowNumberPicker(false);
     }
+  };
 
-    focusedRef.current = false;
+  const handleSudokuDropdownOpen = () => {
+    setShowNumberPicker(false);
+  };
+
+  const setFocus = () => {
+    document.dispatchEvent(new CustomEvent('sudokuDropdownOpen'));
+
+    setShowNumberPicker(true);
   };
 
   const onNumberSelect = useCallback(
     (num: number) => {
       updateCell(row, col, num.toString(), dispatch);
 
-      focusedRef.current = false;
-      handleLostFocus();
+      setShowNumberPicker(false);
     },
     [row, col, dispatch],
   );
 
   useEffect(() => {
-    document.addEventListener('click', handleLostFocus);
+    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener('sudokuDropdownOpen', handleSudokuDropdownOpen);
 
-    return () => document.removeEventListener('click', handleLostFocus);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener('sudokuDropdownOpen', handleSudokuDropdownOpen);
+    };
   }, []);
   
   const value = table[row][col] ? table[row][col] as number : '';
   const locked = Boolean(initialTable[row][col]);
 
   return (
-    <div className={styles.cell} onClick={() => focusedRef.current = true}>
+    <div className={styles.cell} ref={wrapperRef}>
       <input
         type="number"
         aria-label={`Cell ${row}-${col}`}
@@ -59,7 +72,7 @@ const SudokuTableCell: FC<Props> = ({ row, col }) => {
         readOnly={locked}
         value={value}
         onChange={(e) => updateCell(row, col, e.target.value, dispatch)}
-        onFocus={() => setShowNumberPicker(true)}
+        onFocus={setFocus}
       />
       {!locked && <NumberPicker show={showNumberPicker} onSelect={onNumberSelect} right={col >= 6} />}
     </div>
