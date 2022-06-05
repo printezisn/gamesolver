@@ -31,8 +31,11 @@ main {
 
 footer {
   text-align: center;
-  font-size: 0.8rem;
   padding-bottom: 2rem;
+}
+
+footer p:first-child {
+  font-size: 0.8rem;
 }
 
 a {
@@ -109,6 +112,20 @@ a {
 .button.error:hover {
   background: var(--error-color);
   color: var(--text-color);
+}
+
+.full-button {
+  background: var(--text-color);
+  color: var(--grey-darkest);
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.full-button:hover {
+  background: var(--grey-lightest);
+  transition: .3s;
 }
 
 .button-group {

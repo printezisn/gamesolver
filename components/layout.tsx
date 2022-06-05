@@ -33,6 +33,14 @@ const Layout: FC<Props> = ({ pageTitle, pageDescription, children }) => (
           Cube icons created by Good Ware - Flaticon
         </a>
       </p>
+      <br />
+      <p>
+        <a href="https://github.com/printezisn/gamesolver" className="full-button" target="_blank" rel="noreferrer">
+          <i className="fab fa-github-square" />
+          &nbsp;
+          GitHub
+        </a>
+      </p>
     </footer>
   </>
 );
