@@ -119,10 +119,9 @@ export const findInvalidCells = (table: (number | null)[][]) => {
  */
 export const solve = async (table: (number | null)[][]) => {
   const response = await fetch(
-    'http://localhost:7071/api/SolveSudoku',
+    '/api/SolveSudoku',
     {
       method: 'POST',
-      mode: 'cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(table.flat()),
     },
