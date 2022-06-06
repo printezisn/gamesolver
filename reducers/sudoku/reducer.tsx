@@ -1,7 +1,7 @@
 import { createContext, Dispatch, FC, ReactNode, useContext, useReducer } from 'react';
 import { findInvalidCells } from '../../lib/sudoku';
 import { getEmpty2DArray } from '../../lib/utils';
-import { GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU, SOLVE_SUDOKU, UPDATE_CELL_ACTION } from './constants';
+import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
 import { Action, State } from './types';
 
 const emptyTable = getEmpty2DArray(9, 9);
@@ -60,7 +60,17 @@ const reducer = (state: State, action: Action): State => {
           solution: action.payload.solution,
         },
       );
-    case SOLVE_SUDOKU:
+    case GENERATE_EMPTY_SUDOKU_ACTION:
+      return createState(
+        state,
+        {
+          initialized: true,
+          initialTable: emptyTable,
+          table: emptyTable,
+          solution: emptyTable,
+        },
+      );
+    case SOLVE_SUDOKU_ACTION:
       return createState(
         state,
         {
@@ -68,7 +78,7 @@ const reducer = (state: State, action: Action): State => {
           table: state.solution,
         },
       );
-    case INITIALIZE_SUDOKU:
+    case INITIALIZE_SUDOKU_ACTION:
       return createState(
         state,
         {

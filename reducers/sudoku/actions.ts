@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { Difficulty, generate } from '../../lib/sudoku';
 import { fetchFromLocalStorage, storeToLocalStorage } from '../../lib/utils';
-import { GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU, LOCAL_STORAGE_STATE_KEY, SOLVE_SUDOKU, UPDATE_CELL_ACTION } from './constants';
+import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
 import { Action, State } from './types';
 
 /**
@@ -39,12 +39,21 @@ export const generateSudoku = (difficulty: Difficulty, dispatch: Dispatch<Action
 };
 
 /**
+ * Generates a new empty sudoku table
+ * 
+ * @param dispatch Action dispatcher for reducer
+ */
+export const generateEmptySudoku = (dispatch: Dispatch<Action>) => {
+  dispatch({ type: GENERATE_EMPTY_SUDOKU_ACTION });
+};
+
+/**
  * Solves a sudoku table
  * 
  * @param dispatch Action dispatcher for reducer
  */
 export const solveSudoku = (dispatch: Dispatch<Action>) => {
-  dispatch({ type: SOLVE_SUDOKU });
+  dispatch({ type: SOLVE_SUDOKU_ACTION });
 };
 
 /**
@@ -57,7 +66,7 @@ export const initializeSudoku = (dispatch: Dispatch<Action>) => {
   
   if (state) {
     dispatch({
-      type: INITIALIZE_SUDOKU,
+      type: INITIALIZE_SUDOKU_ACTION,
       payload: state,
     });
   } else {
