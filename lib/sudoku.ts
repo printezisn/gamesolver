@@ -110,3 +110,25 @@ export const findInvalidCells = (table: (number | null)[][]) => {
 
   return invalidCells;
 };
+
+/**
+ * Solves a sudoku table and returns the solution
+ * 
+ * @param table The sudoku table to solve
+ * @returns The solution
+ */
+export const solve = async (table: (number | null)[][]) => {
+  const response = await fetch(
+    'http://localhost:7071/api/SolveSudoku',
+    {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(table.flat()),
+    },
+  );
+
+  const solution = (await response.json()).solution as string;
+
+  return convertSolutionToTable(solution);
+};

@@ -1,11 +1,12 @@
 import { FC, useState } from 'react';
 import { Difficulty } from '../../lib/sudoku';
 import { generateEmptySudoku, generateSudoku, solveSudoku } from '../../reducers/sudoku/actions';
-import { useSudokuDispatch } from '../../reducers/sudoku/reducer';
+import { useSudoku, useSudokuDispatch } from '../../reducers/sudoku/reducer';
 
 const SudokuMenu: FC = () => {
   const [showInitialMenu, setShowInitialMenu] = useState(true);
 
+  const state = useSudoku();
   const dispatch = useSudokuDispatch();
 
   const handleGenerate = (difficulty: Difficulty) => {
@@ -20,7 +21,7 @@ const SudokuMenu: FC = () => {
     setShowInitialMenu(true);
   };
   
-  const handleSolve = () => solveSudoku(dispatch);
+  const handleSolve = () => solveSudoku(state, dispatch);
 
   return (
     <div className="button-group">

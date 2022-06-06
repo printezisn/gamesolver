@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
-import { Difficulty, generate } from '../../lib/sudoku';
+import { Difficulty, generate, solve } from '../../lib/sudoku';
 import { fetchFromLocalStorage, storeToLocalStorage } from '../../lib/utils';
-import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
+import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
 import { Action, State } from './types';
 
 /**
@@ -50,9 +50,16 @@ export const generateEmptySudoku = (dispatch: Dispatch<Action>) => {
 /**
  * Solves a sudoku table
  * 
+ * @param state The current state
  * @param dispatch Action dispatcher for reducer
  */
-export const solveSudoku = (dispatch: Dispatch<Action>) => {
+export const solveSudoku = async (state: State, dispatch: Dispatch<Action>) => {
+  if (state.loadSolution) {
+    const solution = await solve(state.table);
+
+    dispatch({ type: SET_SUDOKU_SOLUTION_ACTION, payload: solution });
+  }
+
   dispatch({ type: SOLVE_SUDOKU_ACTION });
 };
 
@@ -80,7 +87,7 @@ export const initializeSudoku = (dispatch: Dispatch<Action>) => {
  * @param state The state of the current sudoku
  */
 export const storeSudoku = (state: State) => {
-  const { initialTable, table, solution } = state;
+  const { initialTable, table, solution, loadSolution } = state;
 
-  storeToLocalStorage(LOCAL_STORAGE_STATE_KEY, { initialTable, table, solution });
+  storeToLocalStorage(LOCAL_STORAGE_STATE_KEY, { initialTable, table, solution, loadSolution });
 };

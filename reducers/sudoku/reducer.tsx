@@ -1,7 +1,7 @@
 import { createContext, Dispatch, FC, ReactNode, useContext, useReducer } from 'react';
 import { findInvalidCells } from '../../lib/sudoku';
 import { getEmpty2DArray } from '../../lib/utils';
-import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
+import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
 import { Action, State } from './types';
 
 const emptyTable = getEmpty2DArray(9, 9);
@@ -13,6 +13,7 @@ const initialState: State = {
   solution: emptyTable,
   invalidCells: [],
   completed: false,
+  loadSolution: true,
 };
 
 /**
@@ -25,7 +26,7 @@ const initialState: State = {
 const createState = (state: State, newProps: any): State => {
   const newState: State = { ...state, ...newProps };
   const invalidCells = findInvalidCells(newState.table);
-  const completed = Object.keys(invalidCells).length === 0 && !newState.table.some((row) => row.indexOf(null) >= 0);
+  const completed = Object.keys(invalidCells).length === 0 && newState.table.flat().indexOf(null) < 0;
 
   return {
     ...newState,
@@ -58,6 +59,7 @@ const reducer = (state: State, action: Action): State => {
           initialTable: action.payload.table,
           table: action.payload.table,
           solution: action.payload.solution,
+          loadSolution: false,
         },
       );
     case GENERATE_EMPTY_SUDOKU_ACTION:
@@ -68,6 +70,7 @@ const reducer = (state: State, action: Action): State => {
           initialTable: emptyTable,
           table: emptyTable,
           solution: emptyTable,
+          loadSolution: true,
         },
       );
     case SOLVE_SUDOKU_ACTION:
@@ -76,6 +79,13 @@ const reducer = (state: State, action: Action): State => {
         {
           initialized: true,
           table: state.solution,
+        },
+      );
+    case SET_SUDOKU_SOLUTION_ACTION:
+      return createState(
+        state,
+        {
+          solution: action.payload,
         },
       );
     case INITIALIZE_SUDOKU_ACTION:

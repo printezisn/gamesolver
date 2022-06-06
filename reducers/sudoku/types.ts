@@ -5,6 +5,7 @@ export interface State {
   solution: (number | null)[][],
   invalidCells: [number, number][],
   completed: boolean,
+  loadSolution: boolean,
 }
 
 export interface Action {
