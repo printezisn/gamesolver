@@ -2,6 +2,15 @@ import { getEmpty2DArray, getRandomNumber } from './utils';
 import availableSolutions from '../data/sudoku.json';
 
 /**
+ * The difficulty of a sudoku table
+ */
+export enum Difficulty {
+  Easy = 40,
+  Normal = 35,
+  Hard = 30,
+}
+
+/**
  * Converts a solution string to table
  * 
  * @param solution The solution string to convert
@@ -20,15 +29,6 @@ const convertSolutionToTable = (solution: string) => {
 
   return table;
 };
-
-/**
- * The difficulty of a sudoku table
- */
-export enum Difficulty {
-  Easy = 40,
-  Normal = 35,
-  Hard = 30,
-}
 
 /**
  * Generates and returns a new sudoku table along with its solution
@@ -115,7 +115,7 @@ export const findInvalidCells = (table: (number | null)[][]) => {
  * Solves a sudoku table and returns the solution
  * 
  * @param table The sudoku table to solve
- * @returns The solution
+ * @returns The solution or null if no solution was found
  */
 export const solve = async (table: (number | null)[][]) => {
   const response = await fetch(
@@ -127,7 +127,11 @@ export const solve = async (table: (number | null)[][]) => {
     },
   );
 
-  const solution = (await response.json()).solution as string;
+  const { success, solution } = await response.json();
+
+  if (!success) {
+    return null;
+  }
 
   return convertSolutionToTable(solution);
 };

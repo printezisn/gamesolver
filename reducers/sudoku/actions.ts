@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 import { Difficulty, generate, solve } from '../../lib/sudoku';
-import { fetchFromLocalStorage, storeToLocalStorage } from '../../lib/utils';
+import { fetchFromLocalStorage, storeToLocalStorage } from '../../lib/localStorage';
 import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
 import { Action, State } from './types';
 
