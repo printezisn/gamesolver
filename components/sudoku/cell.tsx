@@ -4,7 +4,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useSudoku, useSudokuDispatch } from '../../reducers/sudoku/reducer';
 import { updateCell } from '../../reducers/sudoku/actions';
 import classNames from 'classnames';
-import NumberPicker from './number-picker';
+import NumberPicker from './numberPicker';
 
 interface Props {
   row: number,

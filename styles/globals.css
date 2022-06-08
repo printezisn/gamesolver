@@ -154,10 +154,6 @@ a {
   .button-group {
     flex-direction: column;
   }
-
-  .button-group .button:last-child {
-    margin-bottom: 0;
-  }
 }
 
 @media screen and (max-width: 500px) {

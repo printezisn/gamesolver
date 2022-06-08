@@ -11,7 +11,7 @@ const initialState: State = {
   initialTable: emptyTable,
   table: emptyTable,
   solution: emptyTable,
-  invalidCells: [],
+  invalidCells: {},
   completed: false,
   loadSolution: true,
 };
