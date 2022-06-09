@@ -16,6 +16,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sudoku.Generator\Sudoku.Solver\Sudoku.Solver.csproj" />
+    <ProjectReference Include="..\..\Sudoku.Generator\Sudoku.Solver\Sudoku.Solver.csproj" />
   </ItemGroup>
 </Project>
