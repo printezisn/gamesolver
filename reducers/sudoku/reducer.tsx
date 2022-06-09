@@ -1,20 +1,12 @@
 import { createContext, Dispatch, FC, ReactNode, useContext, useReducer } from 'react';
 import { findInvalidCells } from '../../lib/sudoku';
 import { getEmpty2DArray } from '../../lib/utils';
-import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
-import { Action, State } from './types';
+import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
+import { Action, createNewState, State } from './types';
 
 const emptyTable = getEmpty2DArray(9, 9);
 
-const initialState: State = {
-  initialized: false,
-  initialTable: emptyTable,
-  table: emptyTable,
-  solution: emptyTable,
-  invalidCells: {},
-  completed: false,
-  loadSolution: true,
-};
+const initialState = createNewState();
 
 /**
  * Creates and returns a new state based on the current one
@@ -95,6 +87,11 @@ const reducer = (state: State, action: Action): State => {
           ...action.payload,
           initialized: true,
         },
+      );
+    case SET_LOADING_ACTION:
+      return createState(
+        state,
+        { loading: action.payload },
       );
     default:
       throw Error(`Unknown action: ${action.type}`);

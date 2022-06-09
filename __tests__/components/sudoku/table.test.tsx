@@ -1,24 +1,14 @@
 import * as sudokuReducer from '../../../reducers/sudoku/reducer';
 import * as sudokuActions from '../../../reducers/sudoku/actions';
-import { getEmpty2DArray } from '../../../lib/utils';
 import SudokuTable from '../../../components/sudoku/table';
 import { render } from '@testing-library/react';
-import { State } from '../../../reducers/sudoku/types';
+import { createNewState } from '../../../reducers/sudoku/types';
 
 describe('<SudokuTable />', () => {
   const dispatchSpy = jest.fn();
 
   const createState = (initialized: boolean) => {
-    const emptyTable = getEmpty2DArray(9, 9);
-    const state: State = {
-      initialized,
-      table: emptyTable,
-      initialTable: emptyTable,
-      invalidCells: {},
-      completed: false,
-      loadSolution: false,
-      solution: emptyTable,
-    };
+    const state = createNewState({ initialized });
 
     jest.spyOn(sudokuReducer, 'useSudoku').mockImplementation(() => state);
     jest.spyOn(sudokuReducer, 'useSudokuDispatch').mockImplementation(() => dispatchSpy);

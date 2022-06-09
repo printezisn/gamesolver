@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { Difficulty, generate, solve } from '../../lib/sudoku';
 import { fetchFromLocalStorage, storeToLocalStorage } from '../../lib/localStorage';
-import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
+import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
 import { Action, State } from './types';
 
 /**
@@ -55,9 +55,20 @@ export const generateEmptySudoku = (dispatch: Dispatch<Action>) => {
  */
 export const solveSudoku = async (state: State, dispatch: Dispatch<Action>) => {
   if (state.loadSolution) {
-    const solution = await solve(state.table);
+    dispatch({ type: SET_LOADING_ACTION, payload: true });
 
-    dispatch({ type: SET_SUDOKU_SOLUTION_ACTION, payload: solution });
+    try {
+      const solution = await solve(state.table);
+      if (!solution) {
+        alert('A solution could not be found.');
+      } else {
+        dispatch({ type: SET_SUDOKU_SOLUTION_ACTION, payload: solution });
+      }
+    } catch {
+      alert('An error occurred. Please try again later.');
+    }
+
+    dispatch({ type: SET_LOADING_ACTION, payload: false });
   }
 
   dispatch({ type: SOLVE_SUDOKU_ACTION });

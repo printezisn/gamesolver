@@ -1,8 +1,8 @@
 import * as sudokuLib from '../../../lib/sudoku';
 import * as localStorage from '../../../lib/localStorage';
 import { generateEmptySudoku, generateSudoku, initializeSudoku, solveSudoku, storeSudoku, updateCell } from '../../../reducers/sudoku/actions';
-import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from '../../../reducers/sudoku/constants';
-import { State } from '../../../reducers/sudoku/types';
+import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from '../../../reducers/sudoku/constants';
+import { createNewState } from '../../../reducers/sudoku/types';
 
 let dispatchCalls: any[] = [];
 const dispatch = (input: any) => dispatchCalls.push(input);
@@ -94,15 +94,7 @@ describe('Sudoku reducer action', () => {
 
   describe('solveSudoku', () => {
     describe('when the solution must be loaded', () => {
-      const state: State = {
-        initialized: false,
-        initialTable: [],
-        table: [],
-        solution: [],
-        invalidCells: [],
-        completed: false,
-        loadSolution: true,
-      };
+      const state = createNewState({ loadSolution: true });
 
       beforeEach(() => {
         jest.spyOn(sudokuLib, 'solve').mockImplementation(() => Promise.resolve(defaultSolution));
@@ -112,22 +104,16 @@ describe('Sudoku reducer action', () => {
         await solveSudoku(state, dispatch);
 
         expect(dispatchCalls).toEqual([
+          { type: SET_LOADING_ACTION, payload: true },
           { type: SET_SUDOKU_SOLUTION_ACTION, payload: defaultSolution },
+          { type: SET_LOADING_ACTION, payload: false },
           { type: SOLVE_SUDOKU_ACTION },
         ]);
       });
     });
 
     describe('when the solution must not be loaded', () => {
-      const state: State = {
-        initialized: false,
-        initialTable: [],
-        table: [],
-        solution: [],
-        invalidCells: [],
-        completed: false,
-        loadSolution: false,
-      };
+      const state = createNewState();
 
       it('sets the existing solution', async () => {
         await solveSudoku(state, dispatch);
@@ -171,15 +157,7 @@ describe('Sudoku reducer action', () => {
   });
 
   describe('storeSudoku', () => {
-    const state: State = {
-      initialized: true,
-      initialTable: [],
-      table: [],
-      solution: [],
-      loadSolution: false,
-      invalidCells: [],
-      completed: false,
-    };
+    const state = createNewState();
     const spy = jest.spyOn(localStorage, 'storeToLocalStorage');
 
     beforeEach(() => {
