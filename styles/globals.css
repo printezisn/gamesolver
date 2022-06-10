@@ -9,9 +9,23 @@
   --grey-lightest: hsl(var(--brand-color-hue), 10%, 92%);
   --text-color: hsl(var(--brand-color-hue), var(--brand-color-saturation), 97%);
   --shadow-color: hsla(var(--brand-color-hue), 5%, 15%, 0.3);
+
   --error-color: hsl(0, var(--brand-color-saturation), var(--brand-color-lightness));
+  --error-text-color: hsl(0, var(--brand-color-saturation), 97%);
+  --error-text-color-hover: hsl(0, var(--brand-color-saturation), 92%);
+  --error-dark-text-color: hsl(0, 10%, 20%);
+
   --success-color: hsl(120, var(--brand-color-saturation), var(--brand-color-lightness));
+  --success-color: hsl(120, var(--brand-color-saturation), var(--brand-color-lightness));
+  --success-text-color: hsl(120, var(--brand-color-saturation), 97%);
+  --success-text-color-hover: hsl(120, var(--brand-color-saturation), 92%);
+  --success-dark-text-color: hsl(120, 10%, 20%);
+
   --warning-color: hsl(39, var(--brand-color-saturation), var(--brand-color-lightness));
+  --warning-color: hsl(39, var(--brand-color-saturation), var(--brand-color-lightness));
+  --warning-text-color: hsl(39, var(--brand-color-saturation), 97%);
+  --warning-text-color-hover: hsl(39, var(--brand-color-saturation), 92%);
+  --warning-dark-text-color: hsl(39, 10%, 20%);
 }
 
 * {
@@ -96,7 +110,7 @@ a {
 
 .button.success:hover:not(.disabled) {
   background: var(--success-color);
-  color: var(--text-color);
+  color: var(--success-text-color);
 }
 
 .button.warning {
@@ -106,7 +120,7 @@ a {
 
 .button.warning:hover:not(.disabled) {
   background: var(--warning-color);
-  color: var(--text-color);
+  color: var(--warning-text-color);
 }
 
 .button.error {
@@ -116,7 +130,7 @@ a {
 
 .button.error:hover:not(.disabled) {
   background: var(--error-color);
-  color: var(--text-color);
+  color: var(--error-text-color);
 }
 
 .full-button {

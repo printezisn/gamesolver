@@ -13,6 +13,7 @@ export interface State {
   completed: boolean;
   loadSolution: boolean;
   loading: boolean;
+  error: (string | null);
 }
 
 /**
@@ -35,6 +36,8 @@ export class StateHandler {
   
   private _loading: boolean;
 
+  private _error: (string | null);
+
   /**
    * Creates a new instance
    * 
@@ -51,6 +54,7 @@ export class StateHandler {
     this._solution = params.solution || emptyTable;
     this._loadSolution = Boolean(params.loadSolution);
     this._loading = Boolean(params.loading);
+    this._error = params.error || null;
     this._invalidCells = params.invalidCells || {};
     this._completed = Boolean(params.completed);
 
@@ -87,6 +91,7 @@ export class StateHandler {
       completed: this._completed,
       loadSolution: this._loadSolution,
       loading: this._loading,
+      error: this._error,
     };
   }
 }

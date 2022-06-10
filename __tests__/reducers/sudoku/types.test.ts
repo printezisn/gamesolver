@@ -75,6 +75,7 @@ describe('StateHandler', () => {
         loading: false,
         invalidCells: {},
         completed: false,
+        error: null,
       });
     });
   });

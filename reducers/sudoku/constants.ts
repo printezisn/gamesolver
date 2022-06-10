@@ -5,5 +5,6 @@ export const INITIALIZE_SUDOKU_ACTION = 'InitializeSudoku';
 export const GENERATE_EMPTY_SUDOKU_ACTION = 'GenerateEmptySudoku';
 export const SET_SUDOKU_SOLUTION_ACTION = 'SetSudokuSolution';
 export const SET_LOADING_ACTION = 'SetLoadingAction';
+export const SET_ERROR_ACTION = 'SetErrorAction';
 
 export const LOCAL_STORAGE_STATE_KEY = 'sudoku_state';

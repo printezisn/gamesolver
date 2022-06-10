@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect } from 'react';
 import { render } from '@testing-library/react';
-import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from '../../../reducers/sudoku/constants';
+import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, SET_ERROR_ACTION, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from '../../../reducers/sudoku/constants';
 import { SudokuProvider, useSudoku, useSudokuDispatch } from '../../../reducers/sudoku/reducer';
 import { State } from '../../../reducers/sudoku/types';
 import { getEmpty2DArray } from '../../../lib/utils';
@@ -246,6 +246,27 @@ describe('Sudoku reducer', () => {
 
     it('sets the loading status', () => {
       expect(newState.loading).toBeTruthy();
+    });
+  });
+
+  describe('Set error action', () => {
+    let newState: State;
+
+    const Component: FC = () => {
+      const dispatch = useSudokuDispatch();
+      newState = useSudoku();
+
+      useEffect(() => {
+        dispatch({ type: SET_ERROR_ACTION, payload: 'error' });
+      }, [dispatch]);
+
+      return <div></div>;
+    };
+
+    beforeEach(() => render(<Wrapper><Component /></Wrapper>));
+
+    it('sets the error', () => {
+      expect(newState.error).toEqual('error');
     });
   });
 });

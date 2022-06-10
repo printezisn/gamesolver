@@ -1,7 +1,7 @@
 import * as sudokuLib from '../../../lib/sudoku';
 import * as localStorage from '../../../lib/localStorage';
-import { generateEmptySudoku, generateSudoku, initializeSudoku, solveSudoku, storeSudoku, updateCell } from '../../../reducers/sudoku/actions';
-import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from '../../../reducers/sudoku/constants';
+import { generateEmptySudoku, generateSudoku, initializeSudoku, setError, solveSudoku, storeSudoku, updateCell } from '../../../reducers/sudoku/actions';
+import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SET_ERROR_ACTION, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from '../../../reducers/sudoku/constants';
 import { StateHandler } from '../../../reducers/sudoku/types';
 
 let dispatchCalls: any[] = [];
@@ -96,19 +96,53 @@ describe('Sudoku reducer action', () => {
     describe('when the solution must be loaded', () => {
       const state = new StateHandler({ loadSolution: true }).getState();
 
-      beforeEach(() => {
-        jest.spyOn(sudokuLib, 'solve').mockImplementation(() => Promise.resolve(defaultSolution));
+      describe('when a solution is found', () => {
+        beforeEach(() => {
+          jest.spyOn(sudokuLib, 'solve').mockImplementation(() => Promise.resolve(defaultSolution));
+        });
+
+        it('sets it', async () => {
+          await solveSudoku(state, dispatch);
+
+          expect(dispatchCalls).toEqual([
+            { type: SET_LOADING_ACTION, payload: true },
+            { type: SET_SUDOKU_SOLUTION_ACTION, payload: defaultSolution },
+            { type: SOLVE_SUDOKU_ACTION },
+            { type: SET_LOADING_ACTION, payload: false },
+          ]);
+        });
       });
 
-      it('loads the solutions and sets it', async () => {
-        await solveSudoku(state, dispatch);
+      describe('when no solution is found', () => {
+        beforeEach(() => {
+          jest.spyOn(sudokuLib, 'solve').mockImplementation(() => Promise.resolve(null));
+        });
 
-        expect(dispatchCalls).toEqual([
-          { type: SET_LOADING_ACTION, payload: true },
-          { type: SET_SUDOKU_SOLUTION_ACTION, payload: defaultSolution },
-          { type: SET_LOADING_ACTION, payload: false },
-          { type: SOLVE_SUDOKU_ACTION },
-        ]);
+        it('sets an error', async () => {
+          await solveSudoku(state, dispatch);
+
+          expect(dispatchCalls).toEqual([
+            { type: SET_LOADING_ACTION, payload: true },
+            { type: SET_ERROR_ACTION, payload: 'A solution could not be found.' },
+            { type: SET_LOADING_ACTION, payload: false },
+          ]);
+        });
+      });
+
+      describe('when an error is thrown', () => {
+        beforeEach(() => {
+          jest.spyOn(sudokuLib, 'solve').mockImplementation(() => { throw Error('error'); });
+        });
+
+        it('sets an error', async () => {
+          await solveSudoku(state, dispatch);
+
+          expect(dispatchCalls).toEqual([
+            { type: SET_LOADING_ACTION, payload: true },
+            { type: SET_ERROR_ACTION, payload: 'An error occurred. Please try again later.' },
+            { type: SET_LOADING_ACTION, payload: false },
+          ]);
+        });
       });
     });
 
@@ -170,6 +204,14 @@ describe('Sudoku reducer action', () => {
       const { table, initialTable, solution, loadSolution } = state;
 
       expect(spy).toHaveBeenCalledWith(LOCAL_STORAGE_STATE_KEY, { table, initialTable, solution, loadSolution });
+    });
+  });
+
+  describe('setError', () => {
+    it('sets the error for the current sudoku', () => {
+      setError('Test error', dispatch);
+
+      expect(dispatchCalls).toEqual([{ type: SET_ERROR_ACTION, payload: 'Test error' }]);
     });
   });
 });

@@ -1,6 +1,6 @@
 import { createContext, Dispatch, FC, ReactNode, useContext, useReducer } from 'react';
 import { clone2DArray, getEmpty2DArray } from '../../lib/utils';
-import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
+import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, SET_ERROR_ACTION, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
 import { Action, State, StateHandler } from './types';
 
 const emptyTable = getEmpty2DArray<number>(9, 9);
@@ -79,10 +79,9 @@ const reducer = (state: State, action: Action): State => {
         },
       );
     case SET_LOADING_ACTION:
-      return createState(
-        state,
-        { loading: action.payload },
-      );
+      return createState(state, { loading: action.payload });
+    case SET_ERROR_ACTION:
+      return createState(state, { error: action.payload });
     default:
       throw Error(`Unknown action: ${action.type}`);
   }
