@@ -24,14 +24,8 @@ const Layout: FC<Props> = ({ pageTitle, pageDescription, children }) => (
     </main>
     <footer>
       <p className="container">
-        <a
-          href="https://www.flaticon.com/free-icons/cube"
-          title="cube icons"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Cube icons created by Good Ware - Flaticon
-        </a>
+        Crafted by{' '}
+        <a href="https://github.com/printezisn/" target="_blank" rel="noreferrer">printezisn</a>
       </p>
       <br />
       <p>
