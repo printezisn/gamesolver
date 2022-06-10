@@ -1,12 +1,12 @@
 import { fireEvent, render } from '@testing-library/react';
 import SudokuMenu from '../../../components/sudoku/menu';
 import * as sudokuReducer from '../../../reducers/sudoku/reducer';
-import { createNewState } from '../../../reducers/sudoku/types';
+import { StateHandler } from '../../../reducers/sudoku/types';
 
 describe('<SudokuMenu />', () => {
   describe('when the initial menu is shown', () => {
     it('renders the initial menu buttons', () => {
-      const state = createNewState();
+      const state = new StateHandler().getState();
 
       jest.spyOn(sudokuReducer, 'useSudoku').mockImplementation(() => state);
 
@@ -23,7 +23,7 @@ describe('<SudokuMenu />', () => {
 
     describe('when the app is loading', () => {
       it('renders the initial menu buttons disabled', () => {
-        const state = createNewState({ loading: true });
+        const state = new StateHandler({ loading: true }).getState();
 
         jest.spyOn(sudokuReducer, 'useSudoku').mockImplementation(() => state);
 
@@ -42,7 +42,7 @@ describe('<SudokuMenu />', () => {
 
   describe('when the new sudoku menu is shown', () => {
     it('renders the new sudoku menu buttons', () => {
-      const state = createNewState();
+      const state = new StateHandler().getState();
 
       jest.spyOn(sudokuReducer, 'useSudoku').mockImplementation(() => state);
 
@@ -62,7 +62,7 @@ describe('<SudokuMenu />', () => {
     describe('when the app is loading', () => {
       it('renders the initial menu buttons disabled', () => {
         const { getByText, queryByText } = render(<SudokuMenu />);
-        const state = createNewState({ loading: true });
+        const state = new StateHandler({ loading: true }).getState();
 
         jest.spyOn(sudokuReducer, 'useSudoku').mockImplementation(() => state);
 

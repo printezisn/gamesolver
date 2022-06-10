@@ -2,13 +2,13 @@ import * as sudokuReducer from '../../../reducers/sudoku/reducer';
 import * as sudokuActions from '../../../reducers/sudoku/actions';
 import SudokuTable from '../../../components/sudoku/table';
 import { render } from '@testing-library/react';
-import { createNewState } from '../../../reducers/sudoku/types';
+import { StateHandler } from '../../../reducers/sudoku/types';
 
 describe('<SudokuTable />', () => {
   const dispatchSpy = jest.fn();
 
   const createState = (initialized: boolean) => {
-    const state = createNewState({ initialized });
+    const state = new StateHandler({ initialized }).getState();
 
     jest.spyOn(sudokuReducer, 'useSudoku').mockImplementation(() => state);
     jest.spyOn(sudokuReducer, 'useSudokuDispatch').mockImplementation(() => dispatchSpy);

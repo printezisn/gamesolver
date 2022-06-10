@@ -2,7 +2,7 @@ import * as sudokuLib from '../../../lib/sudoku';
 import * as localStorage from '../../../lib/localStorage';
 import { generateEmptySudoku, generateSudoku, initializeSudoku, solveSudoku, storeSudoku, updateCell } from '../../../reducers/sudoku/actions';
 import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, LOCAL_STORAGE_STATE_KEY, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from '../../../reducers/sudoku/constants';
-import { createNewState } from '../../../reducers/sudoku/types';
+import { StateHandler } from '../../../reducers/sudoku/types';
 
 let dispatchCalls: any[] = [];
 const dispatch = (input: any) => dispatchCalls.push(input);
@@ -94,7 +94,7 @@ describe('Sudoku reducer action', () => {
 
   describe('solveSudoku', () => {
     describe('when the solution must be loaded', () => {
-      const state = createNewState({ loadSolution: true });
+      const state = new StateHandler({ loadSolution: true }).getState();
 
       beforeEach(() => {
         jest.spyOn(sudokuLib, 'solve').mockImplementation(() => Promise.resolve(defaultSolution));
@@ -113,7 +113,7 @@ describe('Sudoku reducer action', () => {
     });
 
     describe('when the solution must not be loaded', () => {
-      const state = createNewState();
+      const state = new StateHandler().getState();
 
       it('sets the existing solution', async () => {
         await solveSudoku(state, dispatch);
@@ -157,7 +157,7 @@ describe('Sudoku reducer action', () => {
   });
 
   describe('storeSudoku', () => {
-    const state = createNewState();
+    const state = new StateHandler().getState();
     const spy = jest.spyOn(localStorage, 'storeToLocalStorage');
 
     beforeEach(() => {

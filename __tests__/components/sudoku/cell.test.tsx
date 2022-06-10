@@ -2,6 +2,7 @@ import { act, fireEvent, render } from '@testing-library/react';
 import SudokuTableCell from '../../../components/sudoku/cell';
 import * as sudokuReducer from '../../../reducers/sudoku/reducer';
 import * as sudokuActions from '../../../reducers/sudoku/actions';
+import { StateHandler } from '../../../reducers/sudoku/types';
 
 const table = [
   [4, null, null, null, null, null, null, null, null],
@@ -23,16 +24,15 @@ describe('<SudokuTableCell />', () => {
   };
 
   const createState = (invalidCells: any, completed: boolean) => {
-    jest.spyOn(sudokuReducer, 'useSudoku').mockImplementation(() => ({
+    const state = new StateHandler({
       initialized: true,
-      table,
       initialTable: table,
+      table,
       invalidCells,
       completed,
-      loadSolution: false,
-      solution: [],
-    }));
+    }, false).getState();
 
+    jest.spyOn(sudokuReducer, 'useSudoku').mockImplementation(() => state);
     jest.spyOn(sudokuReducer, 'useSudokuDispatch').mockImplementation(() => dispatchSpy);
   };
 

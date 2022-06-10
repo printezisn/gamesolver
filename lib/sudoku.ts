@@ -17,7 +17,7 @@ export enum Difficulty {
  * @returns The solution table
  */
 const convertSolutionToTable = (solution: string) => {
-  const table = getEmpty2DArray(9, 9);
+  const table = getEmpty2DArray<number>(9, 9);
 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
@@ -50,7 +50,7 @@ export const generate = (difficulty: Difficulty) => {
     availableCells.splice(index, 1);
   }
 
-  const generatedTable = getEmpty2DArray(9, 9);
+  const generatedTable = getEmpty2DArray<number>(9, 9);
 
   visibleCells.forEach((index) => {
     const row = Math.floor(index / 9), col = index % 9;

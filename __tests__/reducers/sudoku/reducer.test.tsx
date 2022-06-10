@@ -29,7 +29,7 @@ const defaultInitialTable = [
   [null, null, null, null, null, null, null, null, null],
 ];
 
-const emptyTable = getEmpty2DArray(9, 9);
+const emptyTable = getEmpty2DArray<number>(9, 9);
 
 interface WrapperProps {
   children: ReactNode

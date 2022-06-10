@@ -1,12 +1,11 @@
 import { createContext, Dispatch, FC, ReactNode, useContext, useReducer } from 'react';
-import { findInvalidCells } from '../../lib/sudoku';
-import { getEmpty2DArray } from '../../lib/utils';
+import { clone2DArray, getEmpty2DArray } from '../../lib/utils';
 import { GENERATE_EMPTY_SUDOKU_ACTION, GENERATE_SUDOKU_ACTION, INITIALIZE_SUDOKU_ACTION, SET_LOADING_ACTION, SET_SUDOKU_SOLUTION_ACTION, SOLVE_SUDOKU_ACTION, UPDATE_CELL_ACTION } from './constants';
-import { Action, createNewState, State } from './types';
+import { Action, State, StateHandler } from './types';
 
-const emptyTable = getEmpty2DArray(9, 9);
+const emptyTable = getEmpty2DArray<number>(9, 9);
 
-const initialState = createNewState();
+const initialState = new StateHandler().getState();
 
 /**
  * Creates and returns a new state based on the current one
@@ -16,15 +15,7 @@ const initialState = createNewState();
  * @returns The new state
  */
 const createState = (state: State, newProps: any): State => {
-  const newState: State = { ...state, ...newProps };
-  const invalidCells = findInvalidCells(newState.table);
-  const completed = Object.keys(invalidCells).length === 0 && newState.table.flat().indexOf(null) < 0;
-
-  return {
-    ...newState,
-    invalidCells,
-    completed,
-  };
+  return new StateHandler(state).merge(newProps).getState();
 };
 
 /**
@@ -38,8 +29,7 @@ const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case UPDATE_CELL_ACTION:
       const { row, col, value } = action.payload;
-      const newTable = [...state.table];
-      newTable[row] = [...newTable[row]];
+      const newTable = clone2DArray(state.table);
       newTable[row][col] = value;
 
       return createState(state, { table: newTable });
